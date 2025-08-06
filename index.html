@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Meta Brawler Checker</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 2em;
+            background-color: #f9f9f9;
+        }
+        form {
+            margin-bottom: 2em;
+        }
+        input[type="text"], select {
+            padding: 0.5em;
+            margin-right: 1em;
+            width: 200px;
+        }
+        input[type="submit"] {
+            padding: 0.5em 1em;
+        }
+        .result {
+            background-color: #fff;
+            padding: 1em;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            max-width: 400px;
+        }
+        img {
+            max-width: 100px;
+            margin-top: 1em;
+        }
+        .tooltip {
+            position: relative;
+            display: inline-block;
+            cursor: help;
+        }
+        .tooltip .tooltiptext {
+            visibility: hidden;
+            width: 220px;
+            background-color: #333;
+            color: #fff;
+            text-align: center;
+            border-radius: 6px;
+            padding: 0.5em;
+            position: absolute;
+            z-index: 1;
+            bottom: 125%; /* Position above */
+            left: 50%;
+            transform: translateX(-50%);
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+        .tooltip:hover .tooltiptext {
+            visibility: visible;
+            opacity: 1;
+        }
+    </style>
+</head>
+<body>
+    <h1>Check Your Meta Brawler</h1>
+    <form method="post">
+        <input type="text" name="plrtag" placeholder="Enter player tag" required>
+        <input type="text" name="selectedmap" placeholder="Enter map name (In rotation)" required>
+        <input type="submit" value="Check">
+    </form>
+
+    {% if result %}
+        <div class="result">
+            {% if result.error %}
+                <p><strong>Error:</strong> {{ result.error }}</p>
+            {% else %}
+                <p><strong>Brawler:</strong> {{ result.brawler }}</p>
+                <p><strong>Win Rate:</strong> {{ result.winRate }}%</p>
+                <p><strong>Confidence:</strong> {{ result.confidence }}</p>
+                <p><strong>Image: </strong> {{ result.imageUrl }}</p>
+                <p><strong>Use Rate:</strong>
+                    {% if result.confidence == "low" %}
+                        <span class="tooltip">{{ result.useRate }}%
+                            <span class="tooltiptext">This data might not be accurate due to low usage.</span>
+                        </span>
+                    {% elif result.confidence == "high" %}
+                        <span class="tooltip">{{ result.useRate }}%
+                            <span class="tooltiptext">This brawler is used often in this event.</span>
+                        </span>
+                    {% else %}
+                        {{ result.useRate }}%
+                    {% endif %}
+                </p>
+                {% if result.imageUrl %}
+                    <img src="{{ result.imageUrl }}" alt="{{ result.brawler }}">
+                {% endif %}
+            {% endif %}
+        </div>
+    {% endif %}
+</body>
+</html>
+

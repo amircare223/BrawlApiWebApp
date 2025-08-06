@@ -3,3 +3,6 @@ requests
 uvicorn
 flask
 logging
+subprocess
+threading
+time

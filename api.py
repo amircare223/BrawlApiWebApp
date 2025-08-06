@@ -192,6 +192,11 @@ def club_info(tag: str, token: str):
 # Example usage:
 # check_brawlstars_icon("YOUGY2R8Y", token)
 
+if __name__ == "__main__":
+    import uvicorn
+    uvicorn.run(app, host="0.0.0.0", port=8000)
+
+
 @app.get("/event")
 def fetch_event(id: str = Query(..., description="Enter event id")):
     data = get_event_info(id)

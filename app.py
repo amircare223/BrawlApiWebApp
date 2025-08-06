@@ -11,8 +11,8 @@ def safe_get(obj, key, default=None):
     return obj[key] if isinstance(obj, dict) and key in obj else default
 
 def get_meta(plrtag, selectedmap):
-    url_player = f"http://localhost:8000/player?tag={plrtag}"
-    url_map = f"http://localhost:8000/map?name={selectedmap}"
+    url_player = f"http://0.0.0.0:8000/player?tag={plrtag}"
+    url_map = f"http://0.0.0.0:8000/map?name={selectedmap}"
     url_events = "https://api.brawlify.com/v1/events"
 
     try:
